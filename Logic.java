@@ -2,11 +2,39 @@ import java.io.BufferedWriter;
 
 public class Logic {
 
+	enum State {
+		BLANK,
+		GOING,
+		INTER,
+		BLACK,
+		WHITE,
+		DRAW
+	}
+	
+	enum StepInOneTurn {
+		NOFOCUS_BLACKTURN,
+		FOCUSED_BLACKTURN,
+		NOFOCUS_WHITETURN,
+		FOCUSED_WHITETURN,
+	}
+	
 	Chess chessIn[][];
 	boolean isBlackChess[][];
 	boolean hasBorder[][];
 	Board board;
 	Point focused;
+	
+	public Chess getChessAt(int i, int j) {
+		return chessIn[i][j];
+	}
+	
+	public boolean getIsBlackAt(int i, int j) {
+		return isBlackChess[i][j];
+	}
+	
+	public boolean getHasBorderAt(int i, int j) {
+		return hasBorder[i][j];
+	}
 	
 	State gameState;
 	StepInOneTurn stepState;
@@ -301,10 +329,16 @@ public class Logic {
 	}
 	public void printBoard() {
 		System.out.println("Board:");
-		for(int i=0;i<8;i++)
+		for(int i=-1;i<8;i++)
 		{
+			System.out.print(i+"\t");
 			for(int j=0;j<8;j++)
 			{
+				if(i==-1)
+				{
+					System.out.print(j+"\t");
+					continue;
+				}
 				System.out.print(hasBorder[i][j]?"[":"");
 				System.out.print(board.isBlackIn(i,j)?"B":"");
 				System.out.print(board.isWhiteIn(i,j)?"W":"");
@@ -314,20 +348,7 @@ public class Logic {
 			}
 			System.out.println();
 		}
+		System.out.println("White checked?"+(whiteChecked()?"yes":"no"));
+		System.out.println("Black checked?"+(blackChecked()?"yes":"no"));
 	}
-}
-
-enum State {
-	BLANK,
-	GOING,
-	INTER,
-	BLACK,
-	WHITE,
-	DRAW
-}
-enum StepInOneTurn {
-	NOFOCUS_BLACKTURN,
-	FOCUSED_BLACKTURN,
-	NOFOCUS_WHITETURN,
-	FOCUSED_WHITETURN,
 }
